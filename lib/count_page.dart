@@ -24,7 +24,7 @@ class _CountPageState extends State<CountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Count Page - ${widget.itemName}'),
+        title: Text('Tasbih - ${widget.itemName}'),
         actions: [
           IconButton(
             icon: const Icon(Icons.restore),
