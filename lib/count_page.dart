@@ -25,6 +25,14 @@ class _CountPageState extends State<CountPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Count Page - ${widget.itemName}'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.restore),
+            onPressed: () {
+              _resetCount();
+            },
+          ),
+        ],
       ),
       body: Center(
         child: Column(
@@ -36,12 +44,6 @@ class _CountPageState extends State<CountPage> {
                 _incrementCount();
               },
               child: const Text('Count'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                _resetCount();
-              },
-              child: const Text('Reset'),
             ),
           ],
         ),
