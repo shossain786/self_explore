@@ -1,10 +1,12 @@
+// count_page.dart
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CountPage extends StatefulWidget {
   final String itemName;
 
-  const CountPage({super.key, required this.itemName});
+  CountPage({required this.itemName});
 
   @override
   _CountPageState createState() => _CountPageState();
@@ -34,18 +36,24 @@ class _CountPageState extends State<CountPage> {
           ),
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Count: $count'),
-            ElevatedButton(
-              onPressed: () {
-                _incrementCount();
-              },
-              child: const Text('Count'),
-            ),
-          ],
+      body: InkWell(
+        onTap: () {
+          _incrementCount();
+        },
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Count: $count',
+                style: const TextStyle(
+                  fontSize: 30,
+                ),
+              ),
+              Image.asset('assets/counter_pic.gif',
+                  width: 400, height: 500), // Replace with your image path
+            ],
+          ),
         ),
       ),
     );
@@ -66,14 +74,14 @@ class _CountPageState extends State<CountPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Reset Count'),
-          content: const Text('Are you sure you want to reset the count?'),
+          title: Text('Reset Count'),
+          content: Text('Are you sure you want to reset the count?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Cancel'),
+              child: Text('Cancel'),
             ),
             TextButton(
               onPressed: () async {
@@ -83,7 +91,7 @@ class _CountPageState extends State<CountPage> {
                 await _saveCount();
                 Navigator.pop(context);
               },
-              child: const Text('Reset'),
+              child: Text('Reset'),
             ),
           ],
         );
@@ -110,22 +118,22 @@ class _CountPageState extends State<CountPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Target Reached'),
-          content: const Text(
+          title: Text('Target Reached'),
+          content: Text(
               'You have reached the target count. Do you want to continue counting?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('No'),
+              child: Text('No'),
             ),
             TextButton(
               onPressed: () {
                 _resetCount(); // Reset the count and continue counting
                 Navigator.pop(context);
               },
-              child: const Text('Yes'),
+              child: Text('Yes'),
             ),
           ],
         );
