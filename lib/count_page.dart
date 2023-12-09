@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class CountPage extends StatefulWidget {
   final String itemName;
 
-  CountPage({required this.itemName});
+  const CountPage({super.key, required this.itemName});
 
   @override
   _CountPageState createState() => _CountPageState();
@@ -39,6 +39,10 @@ class _CountPageState extends State<CountPage> {
       body: InkWell(
         onTap: () {
           _incrementCount();
+          // print('Tapped: $count and Target: $targetCount');
+          if (count == targetCount) {
+            _showContinuePrompt();
+          }
         },
         child: Center(
           child: Column(
@@ -50,6 +54,7 @@ class _CountPageState extends State<CountPage> {
                   fontSize: 30,
                 ),
               ),
+              Text('Target Count: $targetCount'),
               Image.asset('assets/counter_pic.gif',
                   width: 400, height: 500), // Replace with your image path
             ],
@@ -74,14 +79,14 @@ class _CountPageState extends State<CountPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Reset Count'),
-          content: Text('Are you sure you want to reset the count?'),
+          title: const Text('Reset Count'),
+          content: const Text('Are you sure you want to reset the count?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () async {
@@ -91,7 +96,7 @@ class _CountPageState extends State<CountPage> {
                 await _saveCount();
                 Navigator.pop(context);
               },
-              child: Text('Reset'),
+              child: const Text('Reset'),
             ),
           ],
         );
@@ -103,8 +108,10 @@ class _CountPageState extends State<CountPage> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       count = prefs.getInt('${widget.itemName}_count') ?? 0;
-      targetCount = prefs.getInt('${widget.itemName}_targetCount') ?? 0;
+      targetCount = prefs.getInt('${widget.itemName}_targetCount') ?? 10;
     });
+    // print('Loaded Count: $count');
+    // print('Loaded Target Count: $targetCount');
   }
 
   Future<void> _saveCount() async {
@@ -118,22 +125,22 @@ class _CountPageState extends State<CountPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Target Reached'),
-          content: Text(
+          title: const Text('Target Reached'),
+          content: const Text(
               'You have reached the target count. Do you want to continue counting?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('No'),
+              child: const Text('No'),
             ),
             TextButton(
               onPressed: () {
                 _resetCount(); // Reset the count and continue counting
                 Navigator.pop(context);
               },
-              child: Text('Yes'),
+              child: const Text('Yes'),
             ),
           ],
         );
