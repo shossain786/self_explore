@@ -70,14 +70,15 @@ class _NewPageState extends State<NewPage> {
         int targetCount = 0; // Variable to store the target count
 
         return AlertDialog(
-          title: const Text('Add Item'),
+          title: const Text('Add Tasbih'),
           content: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               TextField(
                 onChanged: (value) {
                   newItem = value; // Update the value as the user types
                 },
-                decoration: const InputDecoration(labelText: 'Item Text'),
+                decoration: const InputDecoration(labelText: 'Tasbih Name'),
               ),
               TextField(
                 onChanged: (value) {
