@@ -105,13 +105,23 @@ class _CountPageState extends State<CountPage> {
   }
 
   Future<void> _loadCount() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      count = prefs.getInt('${widget.itemName}_count') ?? 0;
-      targetCount = prefs.getInt('${widget.itemName}_targetCount') ?? 10;
-    });
-    // print('Loaded Count: $count');
-    // print('Loaded Target Count: $targetCount');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(
+      () {
+        count = prefs.getInt('${widget.itemName}_count') ?? 0;
+        targetCount = prefs.getInt('${widget.itemName}_targetCount') ?? 0;
+        String targetKey = '${widget.itemName}_targetCount';
+
+        print('Looking for the key: $targetKey');
+
+        for (String key in prefs.getKeys()) {
+          print("Key: $key Data: ${prefs.get(key)}");
+          if (key.contains(targetKey)) {
+            targetCount = prefs.getInt(key) ?? 0;
+          }
+        }
+      },
+    );
   }
 
   Future<void> _saveCount() async {

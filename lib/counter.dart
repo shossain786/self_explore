@@ -34,7 +34,7 @@ class _NewPageState extends State<NewPage> {
             onPressed: () {
               _addItem();
             },
-            child: const Text('Add Item'),
+            child: const Text('Add Tasbih'),
           ),
           Expanded(
             child: ListView.builder(
@@ -42,8 +42,8 @@ class _NewPageState extends State<NewPage> {
               itemBuilder: (context, index) {
                 return ListTile(
                   title: Text(items[index]?['text']),
-                  subtitle:
-                      Text('Target Count: ${items[index]?['targetCount']}'),
+                  subtitle: Text(
+                      'Target Count: ${items[index]?['${items[index]?['text']}_targetCount']}'),
                   trailing: IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () {
@@ -66,24 +66,25 @@ class _NewPageState extends State<NewPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        String newItem = ''; // Variable to store the newly added item
-        int targetCount = 0; // Variable to store the target count
+        String newItem = '';
+        int targetCount = 0;
 
         return AlertDialog(
           title: const Text('Add Tasbih'),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          ),
           content: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               TextField(
                 onChanged: (value) {
-                  newItem = value; // Update the value as the user types
+                  newItem = value;
                 },
                 decoration: const InputDecoration(labelText: 'Tasbih Name'),
               ),
               TextField(
                 onChanged: (value) {
-                  targetCount = int.tryParse(value) ??
-                      0; // Parse target count as an integer
+                  targetCount = int.tryParse(value) ?? 0;
                 },
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(labelText: 'Target Count'),
@@ -100,9 +101,11 @@ class _NewPageState extends State<NewPage> {
             TextButton(
               onPressed: () async {
                 if (newItem.isNotEmpty) {
-                  // Add the item and target count to the list, save it, and close the dialog
                   setState(() {
-                    items.add({'text': newItem, 'targetCount': targetCount});
+                    items.add({
+                      'text': newItem,
+                      '${newItem}_targetCount': targetCount
+                    });
                   });
                   await _saveItems();
                   Navigator.pop(context);
@@ -183,9 +186,7 @@ class _NewPageState extends State<NewPage> {
 
   Future<void> _saveItems() async {
     final prefs = await SharedPreferences.getInstance();
-    final itemsList = items
-        .map((item) => json.encode(item))
-        .toList(); // Convert Map to JSON string
+    final itemsList = items.map((item) => json.encode(item)).toList();
     prefs.setStringList('items', itemsList);
   }
 }

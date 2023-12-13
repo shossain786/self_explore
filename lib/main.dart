@@ -64,7 +64,13 @@ class HomePage extends StatelessWidget {
         ),
       ),
       body: const Center(
-        child: Text('Home Page Content'),
+        child: Text(
+          'Home Page Content',
+          style: TextStyle(
+            fontSize: 25,
+            color: Color.fromARGB(253, 2, 128, 2),
+          ),
+        ),
       ),
     );
   }
