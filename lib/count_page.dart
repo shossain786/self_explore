@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+int targetCount = 50;
+
 class CountPage extends StatefulWidget {
   final String itemName;
 
@@ -14,7 +16,6 @@ class CountPage extends StatefulWidget {
 
 class _CountPageState extends State<CountPage> {
   int count = 0;
-  int targetCount = 0;
 
   @override
   void initState() {
@@ -39,7 +40,8 @@ class _CountPageState extends State<CountPage> {
       body: InkWell(
         onTap: () {
           _incrementCount();
-          // print('Tapped: $count and Target: $targetCount');
+          print('Tapped: $count and Target: $targetCount');
+          print('hello world------------------');
           if (count == targetCount) {
             _showContinuePrompt();
           }
@@ -54,7 +56,7 @@ class _CountPageState extends State<CountPage> {
                   fontSize: 30,
                 ),
               ),
-              Text('Target Count: $targetCount'),
+              Text('Target Count: $count'),
               Image.asset('assets/counter_pic.gif',
                   width: 400, height: 500), // Replace with your image path
             ],
@@ -109,15 +111,18 @@ class _CountPageState extends State<CountPage> {
     setState(
       () {
         count = prefs.getInt('${widget.itemName}_count') ?? 0;
-        targetCount = prefs.getInt('${widget.itemName}_targetCount') ?? 0;
-        String targetKey = '${widget.itemName}_targetCount';
+        // targetCount = prefs.getInt('${widget.itemName}_targetCount') ?? 0;
+        // String targetKey = '${widget.itemName}_targetCount';
+        String targetKey = 'galaxy123_targetCount';
 
         print('Looking for the key: $targetKey');
 
         for (String key in prefs.getKeys()) {
           print("Key: $key Data: ${prefs.get(key)}");
+          print(prefs.getKeys().length);
           if (key.contains(targetKey)) {
-            targetCount = prefs.getInt(key) ?? 0;
+            print('inside for.....');
+            targetCount = prefs.getInt('galaxy123_targetCount') ?? 100;
           }
         }
       },
