@@ -1,6 +1,6 @@
 # self_explore
 
-A new Flutter project.
+A new Flutter project. Counter Expolre
 
 ## Getting Started
 
